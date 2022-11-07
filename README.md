@@ -70,8 +70,8 @@ For every resource, you can have more than one cache tag and they work similarly
         service: redis-cache-service
         paths:
           - /api/v1
-    			- /invalidate-cache # <--- Added here
-    			- /api/v1/(?<appcode>\.*)
+          - /invalidate-cache # <--- Added here
+          - /api/v1/(?<appcode>\.*)
         strip_path: false
     plugins:
       - name: cache-entity
