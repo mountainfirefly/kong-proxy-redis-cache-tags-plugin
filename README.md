@@ -71,7 +71,7 @@ For every resource, you can have more than one cache tag and they work similarly
         paths:
           - /api/v1
     			- /invalidate-cache # <--- Added here
-          - /api/v1/(?<appcode>\.*)
+    			- /api/v1/(?<appcode>\.*)
         strip_path: false
     plugins:
       - name: cache-entity
@@ -107,12 +107,12 @@ Book  `GET` `/book/book_101`
 ```json
 {
   "id": "book_101",
-	"type": "book",
+  "type": "book",
   "title": "Braiding Sweetgrass",
-	"published": 2013,
-	"language": "English",
+  "published": 2013,
+  "language": "English",
   "pages": 408,
-	"author": {
+  "author": {
     "id": "author_101",
     "name": "Robin Wall Kimmerer"
   }
@@ -121,11 +121,11 @@ Book  `GET` `/book/book_101`
 
 Author `GET` `/author/author_101`
 
-```yaml
+```json
 {
-	"id": "author_101",
-  "type": "author"
-	"name": "Robin Wall Kimmerer"
+  "id": "author_101",
+  "type": "author",
+  "name": "Robin Wall Kimmerer"
 }
 ```
 
@@ -139,8 +139,8 @@ Author `GET` `/author/author_101`
         service: redis-cache-service
         paths:
           - /api/v1
-    			- /invalidate-cache
-    			- /author/(?<appcode>\.*) # Author endpoint
+          - /invalidate-cache
+          - /author/(?<appcode>\.*) # Author endpoint
           - /book/(?<appcode>\.*) # Book endpoint
         strip_path: false
     ```
@@ -160,9 +160,9 @@ Here we are updating the author name.
     PATCH author/author_101
     
     {
-    	"id": "author_101",
-      "type": "author"
-    	"name": "Robin Hood"
+      "id": "author_101",
+      "type": "author",
+      "name": "Robin Hood"
     }
     ```
     
@@ -190,8 +190,8 @@ Here we are updating the author name.
             service: redis-cache-service
             paths:
               - /api/v1
-        			- /invalidate-cache
-        			- /author/(?<appcode>\.*) # PATCH request to be mentioned here
+              - /invalidate-cache
+              - /author/(?<appcode>\.*) # PATCH request to be mentioned here
               - /book/(?<appcode>\.*) 
             strip_path: false
         ```
@@ -199,15 +199,15 @@ Here we are updating the author name.
 
 - Now doing GET for the book will give us updated author details because this goes directly to the upstream server. The below book response will always be cached for subsequent requests.
     
-    ```yaml
+    ```json
     {
       "id": "book_101",
-    	"type": "book",
+      "type": "book",
       "title": "Braiding Sweetgrass",
-    	"published": 2013,
-    	"language": "English",
+      "published": 2013,
+      "language": "English",
       "pages": 408,
-    	"author": {
+      "author": {
         "id": "author_101",
         "name": "Robin Hood"
       }
